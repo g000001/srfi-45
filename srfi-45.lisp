@@ -7,18 +7,11 @@
 
 (declaim (inline box unbox set-box!))
 
-#-sbcl
-(progn
-  (defun box (x) (list x))
-  (defun unbox (list) (car list))
-  (defun set-box! (list item) (rplaca list item)) )
-
-#+sbcl
-(progn
-  (defun box (x) (sb-ext:make-weak-pointer x))
-  (defun unbox (box) (sb-ext:weak-pointer-value box))
-  (defun set-box! (box item)
-    (setq box (sb-ext:make-weak-pointer item))))
+(defun box (x) (make-weak-pointer (list x)))
+(defun unbox (box) (car (weak-pointer-value box)))
+(defun set-box! (box item)
+  (rplaca (weak-pointer-value box)
+          item))
 
 ;=========================================================================
 ; Primitives for lazy evaluation:
