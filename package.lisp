@@ -7,9 +7,10 @@
   (:export :delay
            :lazy?
            :lazy
+           :eager
            :force
            :eager))
 
 (defpackage :srfi-45.internal
-  (:use :srfi-45 :cl :mbe :fiveam)
+  (:use :srfi-45 :cl :trivial-garbage :fiveam)
   (:shadow :loop))
