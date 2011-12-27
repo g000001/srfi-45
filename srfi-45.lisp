@@ -7,24 +7,29 @@
 
 (declaim (inline box unbox set-box!))
 
-(defun box (x) (list x))
-(defun unbox (list) (car list))
-(defun set-box! (list item) (rplaca list item))
+#-sbcl
+(progn
+  (defun box (x) (list x))
+  (defun unbox (list) (car list))
+  (defun set-box! (list item) (rplaca list item)) )
+
+#+sbcl
+(progn
+  (defun box (x) (sb-ext:make-weak-pointer x))
+  (defun unbox (box) (sb-ext:weak-pointer-value box))
+  (defun set-box! (box item)
+    (setq box (sb-ext:make-weak-pointer item))))
 
 ;=========================================================================
 ; Primitives for lazy evaluation:
-
-(define-syntax lazy
-  (syntax-rules ()
-    ((lazy exp)
-     (box (cons 'lazy (lambda () exp))))))
+(defmacro lazy (exp)
+  `(box (cons 'lazy (lambda () ,exp))))
 
 (defun eager (x)
   (box (cons 'eager x)))
 
-(define-syntax delay
-  (syntax-rules ()
-    ((delay exp) (lazy (eager exp)))))
+(defmacro delay (exp)
+  `(lazy (eager ,exp)))
 
 (defun force (promise)
   (declare (optimize (debug 0) (space 3))) ;TCO
@@ -32,11 +37,12 @@
     (case (car content)
       ((eager) (cdr content))
       ((lazy)  (let* ((promise* (funcall (cdr content)))
-                      (content  (unbox promise)))                      ; *
+                      (content (unbox promise)))                      ; *
                  (if (not (eql (car content) 'eager))                 ; *
-                     (progn (setf (car content) (car (unbox promise*)))
-                            (setf (cdr content) (cdr (unbox promise*)))
-                            (set-box! promise* content)))
+                     (progn
+                       (setf (car content) (car (unbox promise*)))
+                       (setf (cdr content) (cdr (unbox promise*)))
+                       (set-box! promise* content)))
                  (force promise))))))
 
 ; (*) These two lines re-fetch and check the original promise in case
