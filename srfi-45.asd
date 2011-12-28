@@ -5,6 +5,7 @@
 (defsystem :srfi-45
   :serial t
   :depends-on (:trivial-garbage
+               :mbe
                :fiveam)
   :components ((:file "package")
                (:file "srfi-45")
