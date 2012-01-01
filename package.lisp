@@ -12,5 +12,5 @@
            :eager))
 
 (defpackage :srfi-45.internal
-  (:use :srfi-45 :cl :trivial-garbage :fiveam)
+  (:use :srfi-45 :cl :trivial-garbage :fiveam :mbe)
   (:shadow :loop))
