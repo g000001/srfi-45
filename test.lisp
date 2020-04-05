@@ -1,8 +1,6 @@
-(cl:in-package :srfi-45.internal)
+(cl:in-package "https://github.com/g000001/srfi-45#internals")
 
-(def-suite srfi-45)
-
-(in-suite srfi-45)
+(def-suite* srfi-45)
 
 (defmacro progn-with-output-to-string ((out) &body body)
   `(let ((,out (make-string-output-stream)))

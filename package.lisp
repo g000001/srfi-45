@@ -1,16 +1,26 @@
 ;;;; package.lisp
 
-(cl:in-package :cl-user)
+(cl:in-package common-lisp-user)
 
-(defpackage :srfi-45
+
+(defpackage "https://github.com/g000001/srfi-45"
   (:use)
-  (:export :delay
-           :lazy?
-           :lazy
-           :eager
-           :force
-           :eager))
+  (:export delay
+           lazy?
+           lazy
+           eager
+           force
+           eager))
 
-(defpackage :srfi-45.internal
-  (:use :srfi-45 :cl :trivial-garbage :fiveam :mbe)
-  (:shadow :loop))
+
+(defpackage "https://github.com/g000001/srfi-45#internals"
+  (:use 
+   "https://github.com/g000001/srfi-45"
+   cl 
+   trivial-garbage 
+   fiveam 
+   mbe)
+  (:shadow loop))
+
+
+;;; *EOF*

@@ -1,5 +1,6 @@
-* SRFI 45: Primitives for Expressing Iterative Lazy Algorithms
-- Copyright (C) André van Tonder (2003). All Rights Reserved.
+# SRFI 45 for CL: Primitives for Expressing Iterative Lazy Algorithms
+
+* Copyright (C) André van Tonder (2003). All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,6 +1,6 @@
 ;;;; srfi-45.lisp
 
-(cl:in-package :srfi-45.internal)
+(cl:in-package "https://github.com/g000001/srfi-45#internals")
 
 ;=========================================================================
 ; Boxes
