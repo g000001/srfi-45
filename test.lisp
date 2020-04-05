@@ -9,11 +9,9 @@
       (get-output-stream-string ,out))))
 
 (defmacro until-stack-exhausted-or-timeout (&body body)
-  #+sbcl `(handler-case (sb-ext:with-timeout 1 ,@body)
-            (sb-kernel::control-stack-exhausted ()
-              'stack-exhausted)
-            (sb-ext:timeout () 'timeout))
-  #-sbcl t)
+  `(handler-case (trivial-timeout:with-timeout (1) ,@body)
+     (trivial-timeout:timeout-error () 'timeout)
+     (error () 'stack-exhausted)))
 
 ;=========================================================================
 ; TESTS AND BENCHMARKS:
@@ -239,3 +237,11 @@
                   (force (times3 100000000))))))
 
 ;;; eof
+
+
+;(force (times3 1000))
+
+#|(dotimes (i 1000)
+  (print (force (stream-ref (from 0) i))))|#
+
+;(cl:loop :for i :from 0 :repeat 1000 :collect )

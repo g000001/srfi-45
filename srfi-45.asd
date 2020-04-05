@@ -11,7 +11,9 @@ https://srfi.schemers.org/srfi-45"
   :author "Andre van Tonder"
   :maintainer "CHIBA Masaomi"
   :serial t
-  :depends-on (:trivial-garbage
+  :depends-on (
+               :com.informatimago.clext.closer-weak
+               :trivial-timeout
                :mbe
                :fiveam)
   :components ((:file "package")

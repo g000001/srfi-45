@@ -17,7 +17,6 @@
   (:use 
    "https://github.com/g000001/srfi-45"
    cl 
-   trivial-garbage 
    fiveam 
    mbe)
   (:shadow loop))
